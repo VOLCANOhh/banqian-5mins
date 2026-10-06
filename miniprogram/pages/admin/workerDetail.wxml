@@ -1,0 +1,124 @@
+<view class="page">
+  <view wx:if="{{err}}" class="empty">
+    <view class="empty-icon"></view>
+    <view>{{err}}</view>
+  </view>
+
+  <block wx:elif="{{!d}}">
+    <view class="skeleton sk-card"></view>
+    <view class="skeleton sk-row"></view>
+    <view class="skeleton sk-row"></view>
+  </block>
+
+  <block wx:else>
+    <!-- A. 档案状态卡：3 秒看懂 -->
+    <view class="card hero">
+      <view class="hero-main">
+        <view class="hname">{{d.worker.name}}<text class="tag-job {{d.worker._cls}}">{{d.worker.job}}</text></view>
+        <view class="hmeta">{{d.worker.group_name}} · {{d.worker.age}} 岁 · 工龄 {{d.worker.years}} 年 · 字幕 {{d.worker.font_size}}</view>
+        <view class="hmeta" wx:if="{{d.worker.phone_masked}}">{{d.worker.phone_masked}}</view>
+      </view>
+      <view class="bind-btn" bindtap="openBind">绑定码</view>
+      <view class="today-state {{d.today.status}}">
+        <block wx:if="{{d.today.status === 'done'}}">
+          <view class="ts-score">{{d.today.score}}<text class="ts-unit">分</text></view>
+          <view class="ts-text">今日已学 · {{d.today.finished_at}}</view>
+        </block>
+        <block wx:else>
+          <view class="ts-score pending">未学</view>
+          <view class="ts-text">今日还没完成</view>
+        </block>
+      </view>
+    </view>
+
+    <!-- B. 薄弱点 TOP3：10 秒知道该干嘛（本页灵魂） -->
+    <view class="card sec-card" wx:if="{{d.mastery.length}}">
+      <view class="sec-title">最需要巩固</view>
+      <view class="mrow" wx:for="{{d.mastery}}" wx:key="point">
+        <view class="mhead">
+          <text class="mname">{{index + 1}}. {{item.point}}</text>
+          <text class="mstatus {{item.value >= 80 ? 'ok' : 'weak'}}">{{item.value}}% · {{item.status}}</text>
+        </view>
+        <view class="mbar-track">
+          <view class="mbar-fill {{item.value >= 80 ? 'ok' : 'weak'}}" style="width:{{item.value}}%"></view>
+        </view>
+      </view>
+      <view class="btn btn-primary push-btn" bindtap="pushForHim">为他推送巩固内容</view>
+    </view>
+
+    <!-- C. 学习总览 -->
+    <view class="ov">
+      <view class="ov-item">
+        <view class="ov-num">{{d.stats.total_days}}</view>
+        <view class="ov-lab">累计学习(天)</view>
+      </view>
+      <view class="ov-item">
+        <view class="ov-num">{{d.stats.streak}}</view>
+        <view class="ov-lab">连续学习(天)</view>
+      </view>
+      <view class="ov-item">
+        <view class="ov-num">{{d.stats.avg_score}}</view>
+        <view class="ov-lab">平均得分</view>
+      </view>
+    </view>
+
+    <!-- D. 复训计划 -->
+    <view class="card review-card" wx:if="{{d.review}}">
+      <view class="cal" wx:if="{{reviewCal}}">
+        <view class="cal-month">{{reviewCal.month}}月</view>
+        <view class="cal-day">{{reviewCal.day}}</view>
+      </view>
+      <view class="cal-text">
+        <view class="cal-title">下次复训：{{d.review.point}}</view>
+        <view class="cal-sub">距上次学习 {{d.review.days_since}} 天 · 记忆保持率约 {{d.review.retention}}%（算法估算）</view>
+      </view>
+    </view>
+
+    <!-- D+. 行为诊断（证据飞轮：暂停/重听行为 → 诊断建议） -->
+    <view class="card behavior-card" wx:if="{{d.behavior}}">
+      <view class="bh-badge">诊</view>
+      <view class="bh-main">
+        <view class="bh-note">{{d.behavior.note}}</view>
+        <view class="bh-sub">近 7 天：暂停 {{d.behavior.pauses}} 次 · 重听 {{d.behavior.repeats}} 次 · 由学习行为数据分析得出</view>
+      </view>
+    </view>
+
+    <!-- E. 学习记录时间线：30 秒拿到证据 -->
+    <view class="sec-title timeline-title">近期学习记录 · 点记录看错题</view>
+    <block wx:for="{{d.records}}" wx:key="full_date">
+      <view class="rec-row" bindtap="toggleRec" data-i="{{index}}">
+        <view class="rec-date">{{item.date}}</view>
+        <view class="rec-main">
+          <view class="rec-task">{{item.task_text}}</view>
+        </view>
+        <view class="rec-score">{{item.score}} 分</view>
+        <view wx:if="{{item.wrong_count}}" class="badge badge-orange">错 {{item.wrong_count}}</view>
+        <view wx:else class="badge badge-green">全对</view>
+      </view>
+      <view class="rec-detail" wx:if="{{expandedRec === index}}">
+        <view class="wd" wx:for="{{item.wrongs}}" wx:for-item="wd" wx:key="q">
+          <view class="wd-q">{{wd.q}}</view>
+          <view class="wd-your">他的回答：{{wd.your}}</view>
+          <view class="wd-correct">正确答案：{{wd.correct}}</view>
+        </view>
+        <view wx:if="{{!item.wrongs.length}}" class="wd-none">当天全部答对 ✓</view>
+      </view>
+    </block>
+  </block>
+
+  <!-- 绑定码半屏：真二维码，工人 app 内扫码自绑；可重发作废旧码 -->
+  <view wx:if="{{showBind}}" class="half-mask" bindtap="closeBind">
+    <view class="half-sheet" catchtap="noop">
+      <view class="sheet-title">{{d.worker.name}} 的专属绑定码</view>
+      <view class="qr-wrap">
+        <image wx:if="{{bind.wxacode_img}}" class="bind-qrc" src="{{bind.wxacode_img}}" mode="aspectFit"/>
+        <image wx:elif="{{bind.qr_img}}" class="bind-qrc" src="{{bind.qr_img}}" mode="aspectFit"/>
+        <!-- 屏外画布：只用于把文本码转成图片（原生 canvas 不跟滚动，转 image 后正常） -->
+        <canvas wx:else canvas-id="bindQr" class="bind-qrc-off"></canvas>
+        <view class="bind-sub">工人扫此码即绑定为 {{d.worker.name}}，每人一码、可随时重发作废</view>
+      </view>
+      <view class="btn btn-ghost" bindtap="regenerate">重发新码（旧码作废）</view>
+      <view class="btn btn-ghost" bindtap="closeBind">关闭</view>
+    </view>
+  </view>
+</view>

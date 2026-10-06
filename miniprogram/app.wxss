@@ -1,0 +1,196 @@
+/* =====================================================
+   班前五分钟 · 设计规范 v1（对标 docs/ui-references.md）
+   色板 / 字号阶梯 / 8rpx 网格 / 圆角阴影 / 通用组件 / CSS 动效
+   ===================================================== */
+page {
+  /* ---- 色板：颜色只服务状态，不做装饰 ---- */
+  --c-primary:   #1B4B8F;  /* 主蓝：品牌 / 进行中 */
+  --c-primary-d: #143A6E;  /* 深蓝：按压态 / 强调文本 */
+  --c-green:     #1E7D4F;  /* 安全绿：完成 / 答对 */
+  --c-green-bg:  #E3F2EA;
+  --c-orange:    #C26A1B;  /* 警示橙：未学 / 需巩固（不用红＝赋能非处罚） */
+  --c-orange-bg: #F7EBDA;
+  --c-red:       #C0392B;  /* 危险红：仅录音中 / 破坏性操作 */
+  --c-ink:       #1F2430;  /* 主文本（对灰底对比度 > 12:1） */
+  --c-ink-2:     #4A5160;  /* 次文本 */
+  --c-ink-3:     #7A8090;  /* 弱文本（对 #F5F6F8 仍 ≥ 4.5:1） */
+  --c-line:      #E3E6EC;
+  --c-bg:        #F5F6F8;
+  --c-card:      #FFFFFF;
+
+  /* ---- 字号阶梯（适老底线：正文不小于 28rpx） ---- */
+  --fs-display: 64rpx;
+  --fs-title:   40rpx;
+  --fs-body:    32rpx;
+  --fs-sub:     28rpx;
+  --fs-caption: 24rpx;   /* 仅辅助标签，不承载正文 */
+
+  /* ---- 圆角 / 阴影 ---- */
+  --r-card: 20rpx;
+  --r-btn:  16rpx;
+  --shadow-card: 0 2rpx 12rpx rgba(27, 43, 75, .06);
+
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+
+/* ================= 按钮（WeUI 语言） ================= */
+.btn {
+  border-radius: var(--r-btn);
+  padding: 28rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  transition: opacity .15s, transform .15s;
+}
+.btn:active { opacity: .82; transform: scale(.985); }
+.btn-primary { background: var(--c-primary); color: #fff; }
+.btn-ghost   { background: var(--c-card); color: var(--c-primary); border: 2rpx solid var(--c-primary); }
+.btn-danger  { background: var(--c-red); color: #fff; }
+.btn.disabled { opacity: .45; }
+
+/* ================= 卡片 ================= */
+.card {
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 28rpx;
+  box-shadow: var(--shadow-card);
+}
+
+/* ================= 徽章 / 标签 ================= */
+.badge {
+  font-size: var(--fs-caption);
+  border-radius: 999rpx;
+  padding: 8rpx 24rpx;
+  white-space: nowrap;
+}
+.badge-green  { background: var(--c-green-bg);  color: var(--c-green); }
+.badge-orange { background: var(--c-orange-bg); color: var(--c-orange); }
+.badge-blue   { background: #E8EFF8;            color: var(--c-primary); }
+
+/* 工种徽章固有色（对标鱼泡网：工种一眼可辨） */
+.tag-job { font-size: var(--fs-caption); border-radius: 8rpx; padding: 4rpx 14rpx; margin-left: 14rpx; }
+.tag-j1 { background: #E8EFF8; color: #1B4B8F; }  /* 架子工 */
+.tag-j2 { background: #E3F2EA; color: #1E7D4F; }  /* 钢筋工 */
+.tag-j3 { background: #F7EBDA; color: #C26A1B; }  /* 混凝土工 */
+.tag-j4 { background: #F0E8F8; color: #6B4B9E; }  /* 木工 */
+.tag-j5 { background: #FDF3D8; color: #9E7A0B; }  /* 电工 */
+.tag-j6 { background: #E0F2F4; color: #0E7C8A; }  /* 塔吊司机 */
+.tag-j7 { background: #ECEEF2; color: #4A5160; }  /* 其他 */
+
+/* ================= 空态（插画位 + 一句说明 + 一个主按钮） ================= */
+.empty {
+  padding: 80rpx 40rpx;
+  text-align: center;
+  color: var(--c-ink-3);
+  font-size: var(--fs-sub);
+}
+.empty .empty-icon {
+  width: 96rpx;
+  height: 96rpx;
+  margin: 0 auto 24rpx;
+  border-radius: 24rpx;
+  background: var(--c-line);
+}
+
+/* ================= 骨架屏 ================= */
+.skeleton {
+  border-radius: 12rpx;
+  background: #E9ECF1;
+  animation: sk-breathe 1.2s ease-in-out infinite;
+}
+@keyframes sk-breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .45; }
+}
+
+/* ================= 半屏弹窗（底部圆角弹出，主操作在最下） ================= */
+.half-mask {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, .45);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  animation: fade-in .2s;
+}
+.half-sheet {
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--c-bg);
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 36rpx 32rpx calc(40rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  animation: sheet-up .28s ease-out;
+}
+@keyframes sheet-up {
+  from { transform: translateY(60rpx); opacity: .6; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ================= 反馈弹卡（✓绿 / ⚠橙，弹入后自动消失） ================= */
+.pop-mask {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;   /* 不挡操作，纯反馈 */
+}
+.pop-card {
+  min-width: 320rpx;
+  padding: 40rpx 56rpx;
+  border-radius: 24rpx;
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 8rpx 40rpx rgba(15,23,42,.18);
+  text-align: center;
+  animation: pop-in .25s ease-out;
+}
+.pop-card .pop-icon { font-size: 88rpx; line-height: 1.1; }
+.pop-card .pop-text { margin-top: 12rpx; font-size: 40rpx; font-weight: bold; }
+.pop-card.green .pop-icon, .pop-card.green .pop-text { color: var(--c-green); }
+.pop-card.orange .pop-icon, .pop-card.orange .pop-text { color: var(--c-orange); }
+@keyframes pop-in {
+  0%   { transform: scale(.6); opacity: 0; }
+  70%  { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ================= 声波动效（录音态） ================= */
+.sound-bars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sound-bars .bar {
+  width: 10rpx;
+  margin: 0 7rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  animation: bar-wave 1s ease-in-out infinite;
+}
+.sound-bars .bar:nth-child(1) { height: 28rpx; animation-delay: 0s; }
+.sound-bars .bar:nth-child(2) { height: 52rpx; animation-delay: .15s; }
+.sound-bars .bar:nth-child(3) { height: 72rpx; animation-delay: .3s; }
+.sound-bars .bar:nth-child(4) { height: 52rpx; animation-delay: .45s; }
+.sound-bars .bar:nth-child(5) { height: 28rpx; animation-delay: .6s; }
+@keyframes bar-wave {
+  0%, 100% { transform: scaleY(.4); }
+  50%      { transform: scaleY(1); }
+}
+
+/* ================= 通用脉冲（录音中圆钮） ================= */
+.pulse { animation: pulse 1.2s infinite; }
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(192,57,43,.5); }
+  70%  { box-shadow: 0 0 0 40rpx rgba(192,57,43,0); }
+  100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+}

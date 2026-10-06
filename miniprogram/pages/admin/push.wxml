@@ -1,0 +1,56 @@
+<view class="page">
+  <!-- 顶部检索 -->
+  <view class="searchbar">
+    <view class="search-icon"></view>
+    <input class="search-input" value="{{keyword}}" bindinput="onKeyword"
+           placeholder="搜推送内容 / 对象 / 备注" confirm-type="search" />
+  </view>
+
+  <!-- 推送记录：圆角卡片竖排，按日期隔开 -->
+  <block wx:for="{{grouped}}" wx:key="date" wx:for-item="g">
+    <view class="date-divider">{{g.label}}</view>
+    <view class="rec-card" wx:for="{{g.items}}" wx:for-item="r" wx:key="task_id"
+          bindtap="openRec" data-item="{{r}}">
+      <view class="rec-head">
+        <view class="rec-title">{{r.task_text}}</view>
+        <view class="c-arrow">›</view>
+      </view>
+      <view class="rec-tags">
+        <view class="badge badge-blue">{{r.target_desc}} · {{r.target_count}} 人</view>
+        <view class="badge badge-green" wx:if="{{r.kb && r.kb.length}}">{{r.kb.length}} 条规范</view>
+      </view>
+      <view class="rec-note" wx:if="{{r.note}}">{{r.note}}</view>
+      <view class="rec-foot">{{r.pushed_by}} · {{r.pushed_at}} 推送</view>
+    </view>
+  </block>
+
+  <view wx:if="{{!grouped.length}}" class="empty">
+    <view class="empty-icon"></view>
+    <view>{{keyword ? '没有匹配的推送记录' : '还没有推送记录'}}</view>
+  </view>
+
+  <!-- 底部添加按钮 -->
+  <view class="add-wrap">
+    <view class="btn btn-primary add-btn" bindtap="goAdd">＋ 添加今日推送</view>
+  </view>
+
+  <!-- 记录详情半屏 -->
+  <view wx:if="{{detailRec}}" class="half-mask" bindtap="closeRec">
+    <view class="half-sheet" catchtap="">
+      <view class="sheet-title">{{detailRec.task_text}}</view>
+      <view class="rec-tags sheet-tags">
+        <view class="badge badge-blue">{{detailRec.target_desc}} · {{detailRec.target_count}} 人</view>
+      </view>
+      <view class="rec-foot">{{detailRec.date}} {{detailRec.pushed_at}} · {{detailRec.pushed_by}}</view>
+      <view class="rec-note sheet-note" wx:if="{{detailRec.note}}">备注：{{detailRec.note}}</view>
+      <view class="rec-note sheet-note" wx:if="{{detailRec.env && detailRec.env.weather}}">推送时天气：{{detailRec.env.weather.text}} {{detailRec.env.weather.temp}}° · {{detailRec.env.weather.wind_dir}} {{detailRec.env.weather.wind_scale}}级 · 湿度 {{detailRec.env.weather.humidity}}%<block wx:if="{{detailRec.env.weather.risk_hints.length}}">　⚠ {{detailRec.env.weather.risk_hints[0].text}}</block></view>
+      <view class="d-sec" wx:if="{{detailRec.kb && detailRec.kb.length}}">本次推送的规范内容</view>
+      <view class="d-kb" wx:for="{{detailRec.kb}}" wx:key="kb_id">
+        <view class="d-kb-head">{{item.title}}<text class="d-kb-doc">{{item.doc_no}} · {{item.clause}}</text></view>
+        <view class="d-kb-sum">{{item.summary}}</view>
+      </view>
+      <view class="d-loading" wx:if="{{!detailRec.kb || !detailRec.kb.length}}">本次内容由后端智能体按工序现场生成。</view>
+      <view class="btn btn-ghost sheet-cancel" bindtap="closeRec">关闭</view>
+    </view>
+  </view>
+</view>

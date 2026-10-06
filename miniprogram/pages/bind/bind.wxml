@@ -1,0 +1,14 @@
+<view class="bind-page">
+  <!-- 机制1：本机身份码，给班组长扫。全程就这一个码 -->
+  <view class="bind-title">请让班组长扫这个码</view>
+  <view class="card qr-card">
+    <canvas canvas-id="qrc" class="qrc"></canvas>
+  </view>
+  <view class="bind-tip">扫完自动开始学习，不用你再操作</view>
+
+  <!-- 机制2：手里已有班组长发的个人码 → 扫它直接绑 -->
+  <view class="btn btn-primary scan-btn" bindtap="scanBind">扫描班组长发的码</view>
+
+  <!-- 班组长误扫门口码时也落在这里 → 给管理员入口 -->
+  <view class="admin-entry" bindtap="goAdmin">若是班组长请点击此处 ›</view>
+</view>

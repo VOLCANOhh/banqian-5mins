@@ -1,0 +1,20 @@
+.login-page { padding: 80rpx 40rpx; }
+.login-badge {
+  width: 120rpx; height: 120rpx; margin: 0 auto 32rpx;
+  border-radius: 28rpx; background: var(--c-primary); color: #fff;
+  font-size: 56rpx; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+}
+.login-title { text-align: center; font-size: var(--fs-title); font-weight: bold; }
+.login-sub {
+  margin: 20rpx 0 48rpx; text-align: center;
+  font-size: var(--fs-sub); color: var(--c-ink-2); line-height: 1.6;
+}
+.login-sub.dim { margin-top: -32rpx; font-size: var(--fs-caption); color: var(--c-ink-3); }
+.field {
+  background: #fff; border: 2rpx solid var(--c-line); border-radius: 12rpx;
+  padding: 24rpx; font-size: var(--fs-body); margin-bottom: 16rpx;
+  letter-spacing: 8rpx; text-align: center;
+}
+.err { color: var(--c-orange); font-size: var(--fs-sub); margin-bottom: 16rpx; text-align: center; }
+.btn { margin-bottom: 20rpx; }

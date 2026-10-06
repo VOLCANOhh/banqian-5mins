@@ -1,0 +1,12 @@
+<view class="login-page">
+  <view class="login-badge">管</view>
+  <view class="login-title">班组长登录</view>
+
+  <view wx:if="{{loading}}" class="login-sub">微信登录中…</view>
+  <block wx:else>
+    <view class="login-sub">{{err || '请使用班组长微信登录'}}</view>
+    <view class="btn btn-primary" bindtap="login">微信登录</view>
+  </block>
+
+  <view class="btn btn-ghost" bindtap="back">返回</view>
+</view>

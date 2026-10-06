@@ -1,0 +1,258 @@
+page {
+  background: var(--c-bg);
+}
+
+.page {
+  padding: 24rpx 24rpx 80rpx;
+}
+
+/* ================= 检索栏 ================= */
+.searchbar {
+  display: flex;
+  align-items: center;
+  background: var(--c-card);
+  border-radius: 999rpx;
+  padding: 16rpx 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+.searchbar.slim { padding: 12rpx 24rpx; margin-bottom: 16rpx; }
+.search-icon {
+  width: 28rpx;
+  height: 28rpx;
+  border: 4rpx solid var(--c-ink-3);
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.search-icon::after {
+  content: '';
+  position: absolute;
+  width: 14rpx;
+  height: 4rpx;
+  background: var(--c-ink-3);
+  right: -12rpx;
+  bottom: -6rpx;
+  transform: rotate(45deg);
+  border-radius: 2rpx;
+}
+.search-input {
+  flex: 1;
+  margin-left: 20rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink);
+}
+.search-clear {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: var(--c-line);
+  color: var(--c-ink-2);
+  font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.result-tip {
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  margin: 8rpx 8rpx 16rpx;
+}
+
+/* ================= 分段切换 ================= */
+.date-tab {
+  display: flex;
+  background: #E9ECF1;
+  border-radius: 14rpx;
+  padding: 6rpx;
+  margin-bottom: 24rpx;
+}
+.date-tab .tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+  border-radius: 10rpx;
+}
+.date-tab .tab.on {
+  background: #fff;
+  color: var(--c-primary);
+  font-weight: bold;
+  box-shadow: var(--shadow-card);
+}
+
+/* ================= 骨架屏 ================= */
+.sk-card { height: 180rpx; margin-bottom: 24rpx; }
+.sk-row  { height: 96rpx; margin-bottom: 16rpx; }
+
+.empty-btn { margin-top: 32rpx; }
+
+/* ================= 今日任务卡 ================= */
+.card-tag {
+  display: inline-block;
+  font-size: var(--fs-caption);
+  color: #fff;
+  background: var(--c-primary);
+  border-radius: 8rpx;
+  padding: 4rpx 16rpx;
+  margin-bottom: 16rpx;
+}
+.task-text {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+  line-height: 1.4;
+}
+.task-note {
+  margin-top: 10rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+}
+.task-meta {
+  margin-top: 16rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+
+/* ================= 分区（群报数式） ================= */
+.sec { margin-top: 32rpx; }
+.sec-head {
+  display: flex;
+  align-items: center;
+  margin: 0 8rpx 16rpx;
+}
+.sec-num {
+  font-size: 72rpx;
+  font-weight: bold;
+  line-height: 1;
+  min-width: 96rpx;
+}
+.sec-num.orange { color: var(--c-orange); }
+.sec-num.green  { color: var(--c-green); }
+.sec-title { flex: 1; }
+.sec-name {
+  font-size: var(--fs-body);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.sec-sub {
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  margin-top: 4rpx;
+}
+.remind-btn {
+  background: var(--c-orange);
+  color: #fff;
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  border-radius: 999rpx;
+  padding: 14rpx 32rpx;
+}
+.remind-btn:active { opacity: .85; }
+
+.empty-inline {
+  padding: 32rpx;
+  text-align: center;
+  color: var(--c-ink-3);
+  font-size: var(--fs-sub);
+  background: var(--c-card);
+  border-radius: var(--r-card);
+}
+
+/* ================= 工人行 ================= */
+.wrow {
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 24rpx 28rpx;
+  margin-bottom: 12rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+}
+.wrow:active { opacity: .85; }
+.wmain { flex: 1; }
+.wname {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.wsub {
+  margin-top: 6rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-green);
+}
+.wsub.pending { color: var(--c-orange); }
+.wsub-plain {
+  margin-top: 6rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-3);
+}
+
+/* ================= 往期 ================= */
+.day-row {
+  display: flex;
+  align-items: center;
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 26rpx 28rpx;
+  margin-bottom: 12rpx;
+  box-shadow: var(--shadow-card);
+}
+.day-row:active { opacity: .85; }
+.day-date {
+  font-size: var(--fs-body);
+  font-weight: bold;
+  color: var(--c-primary);
+  min-width: 130rpx;
+}
+.day-info {
+  flex: 1;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+}
+.day-arrow {
+  font-size: 44rpx;
+  color: var(--c-ink-3);
+}
+.back-link {
+  display: inline-block;
+  color: var(--c-primary);
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  padding: 8rpx 8rpx 20rpx;
+}
+
+/* ================= 提醒半屏弹窗 ================= */
+.sheet-title {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.sheet-sub {
+  margin-top: 12rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+}
+.remind-names {
+  margin: 24rpx 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.remind-name {
+  background: var(--c-orange-bg);
+  color: var(--c-orange);
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  border-radius: 999rpx;
+  padding: 12rpx 32rpx;
+  margin: 0 16rpx 16rpx 0;
+}
+.remind-tip {
+  margin-bottom: 32rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  line-height: 1.6;
+}
+.sheet-cancel { margin-top: 20rpx; }

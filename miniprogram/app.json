@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/training/training",
+    "pages/result/result",
+    "pages/bind/bind",
+    "pages/admin/push",
+    "pages/admin/admin",
+    "pages/admin/workers",
+    "pages/admin/workerDetail",
+    "pages/admin/pushEdit",
+    "pages/admin/login",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1B4B8F",
+    "navigationBarTitleText": "班前五分钟",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F6F8"
+  },
+  "tabBar": {
+    "color": "#7A8090",
+    "selectedColor": "#1B4B8F",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/admin/push", "text": "推送", "iconPath": "assets/tab/push.png", "selectedIconPath": "assets/tab/push-on.png" },
+      { "pagePath": "pages/admin/admin", "text": "学习情况", "iconPath": "assets/tab/data.png", "selectedIconPath": "assets/tab/data-on.png" },
+      { "pagePath": "pages/admin/workers", "text": "工人", "iconPath": "assets/tab/user.png", "selectedIconPath": "assets/tab/user-on.png" },
+      { "pagePath": "pages/settings/settings", "text": "设置", "iconPath": "assets/tab/set.png", "selectedIconPath": "assets/tab/set-on.png" }
+    ]
+  },
+  "permission": {
+    "scope.record": { "desc": "用于语音答题" },
+    "scope.userLocation": { "desc": "用于获取工地天气（温度、风级），作为培训环境信息" }
+  },
+  "requiredPrivateInfos": [ "getLocation" ],
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

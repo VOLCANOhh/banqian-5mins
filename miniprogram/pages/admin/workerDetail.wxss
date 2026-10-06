@@ -1,0 +1,282 @@
+page {
+  background: var(--c-bg);
+}
+
+.page {
+  padding: 24rpx 24rpx 80rpx;
+}
+
+.sk-card { height: 220rpx; margin-bottom: 24rpx; }
+.sk-row  { height: 96rpx; margin-bottom: 16rpx; }
+
+/* ================= A. 档案状态卡 ================= */
+.hero {
+  position: relative;
+  padding: 32rpx 28rpx 96rpx;
+}
+.hero-main { padding-right: 200rpx; }
+.hname {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.hmeta {
+  margin-top: 8rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+}
+.bind-btn {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-primary);
+  border: 2rpx solid var(--c-primary);
+  border-radius: 999rpx;
+  padding: 8rpx 24rpx;
+}
+.today-state {
+  position: absolute;
+  right: 28rpx;
+  bottom: 24rpx;
+  text-align: right;
+}
+.ts-score {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: var(--c-green);
+  line-height: 1;
+}
+.ts-score.pending {
+  font-size: 48rpx;
+  color: var(--c-orange);
+}
+.ts-unit { font-size: 28rpx; margin-left: 6rpx; }
+.ts-text {
+  margin-top: 8rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+
+/* ================= 分节标题 ================= */
+.sec-title {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-ink);
+  margin: 0 0 16rpx;
+}
+.sec-card { margin-top: 24rpx; }
+.timeline-title { margin: 32rpx 8rpx 16rpx; }
+
+/* ================= B. 薄弱点掌握度条 ================= */
+.mrow { margin-bottom: 24rpx; }
+.mhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10rpx;
+}
+.mname {
+  font-size: var(--fs-body);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.mstatus { font-size: var(--fs-caption); }
+.mstatus.weak { color: var(--c-orange); font-weight: bold; }
+.mstatus.ok   { color: var(--c-green); }
+.mbar-track {
+  height: 16rpx;
+  border-radius: 999rpx;
+  background: var(--c-line);
+  overflow: hidden;
+}
+.mbar-fill {
+  height: 100%;
+  border-radius: 999rpx;
+}
+.mbar-fill.weak { background: var(--c-orange); }
+.mbar-fill.ok   { background: var(--c-green); }
+.push-btn { margin-top: 12rpx; }
+
+/* ================= C. 学习总览 ================= */
+.ov {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24rpx;
+}
+.ov-item {
+  width: 31%;
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 28rpx 0;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.ov-num {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: var(--c-primary);
+  line-height: 1.1;
+}
+.ov-lab {
+  margin-top: 8rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+
+/* ================= D. 复训日历卡 ================= */
+.review-card {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+}
+.cal {
+  width: 120rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  border: 2rpx solid var(--c-line);
+  text-align: center;
+  flex-shrink: 0;
+}
+.cal-month {
+  background: var(--c-primary);
+  color: #fff;
+  font-size: var(--fs-caption);
+  padding: 6rpx 0;
+}
+.cal-day {
+  background: #fff;
+  color: var(--c-ink);
+  font-size: 56rpx;
+  font-weight: bold;
+  padding: 10rpx 0;
+}
+.cal-text { margin-left: 28rpx; flex: 1; }
+.cal-title {
+  font-size: var(--fs-body);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.cal-sub {
+  margin-top: 8rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  line-height: 1.5;
+}
+
+/* ================= D+. 行为诊断卡 ================= */
+.behavior-card {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: flex-start;
+}
+.bh-badge {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 14rpx;
+  background: var(--c-primary);
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.bh-main { margin-left: 20rpx; flex: 1; }
+.bh-note {
+  font-size: var(--fs-sub);
+  color: var(--c-ink);
+  line-height: 1.55;
+}
+.bh-sub {
+  margin-top: 8rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+
+/* ================= E. 记录时间线 ================= */
+.rec-row {
+  display: flex;
+  align-items: center;
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 24rpx 28rpx;
+  margin-bottom: 4rpx;
+  box-shadow: var(--shadow-card);
+}
+.rec-row:active { opacity: .85; }
+.rec-date {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-primary);
+  min-width: 100rpx;
+}
+.rec-main { flex: 1; }
+.rec-task {
+  font-size: var(--fs-sub);
+  color: var(--c-ink);
+}
+.rec-score {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-ink);
+  margin-right: 16rpx;
+}
+.rec-detail {
+  background: #EEF1F5;
+  border-radius: 0 0 var(--r-card) var(--r-card);
+  margin: -4rpx 0 16rpx;
+  padding: 20rpx 28rpx 24rpx;
+}
+.wd { margin-bottom: 20rpx; }
+.wd:last-child { margin-bottom: 0; }
+.wd-q {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.wd-your {
+  margin-top: 6rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+.wd-correct {
+  margin-top: 6rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-orange);
+  font-weight: bold;
+}
+.wd-none {
+  font-size: var(--fs-sub);
+  color: var(--c-green);
+}
+
+/* ================= 绑定码半屏 ================= */
+.sheet-title {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+  text-align: center;
+}
+.qr-wrap {
+  margin: 32rpx 0;
+  text-align: center;
+}
+.qr-placeholder {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 16rpx;
+  margin: 0 auto 20rpx;
+  background: repeating-linear-gradient(45deg, #1b4b8f 0, #1b4b8f 10rpx, #fff 10rpx, #fff 20rpx);
+}
+.bind-sub {
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  line-height: 1.6;
+  margin-top: 8rpx;
+}
+/* 真二维码图片（由屏外画布转换而来；原生 canvas 不跟滚动，不用它直接显示） */
+.bind-qrc { width: 480rpx; height: 480rpx; margin: 0 auto 16rpx; }
+/* 屏外画布：只用于把文本码转成图片，永不显示 */
+.bind-qrc-off { position: fixed; left: -9999rpx; top: 0; width: 240px; height: 240px; }

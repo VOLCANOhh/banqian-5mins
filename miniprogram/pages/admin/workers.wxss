@@ -1,0 +1,178 @@
+page {
+  background: var(--c-bg);
+}
+
+.page {
+  padding: 24rpx 24rpx 80rpx;
+}
+
+/* ================= 分组卡 ================= */
+.gcard {
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  margin-bottom: 16rpx;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.ghead {
+  display: flex;
+  align-items: center;
+  padding: 28rpx;
+}
+.ghead:active { opacity: .85; }
+.gname {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.gcount {
+  flex: 1;
+  margin-left: 20rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-3);
+}
+.garrow {
+  font-size: 48rpx;
+  color: var(--c-ink-3);
+  transform: rotate(90deg);
+  transition: transform .2s;
+}
+.garrow.up { transform: rotate(-90deg); }
+
+/* 组内工人行 */
+.wrow {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  border-top: 1rpx solid var(--c-line);
+}
+.wrow:active { opacity: .85; }
+.wmain { flex: 1; }
+.wname {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.wsub {
+  margin-top: 6rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+}
+.add-in-group {
+  padding: 24rpx;
+  text-align: center;
+  color: var(--c-primary);
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  border-top: 1rpx dashed var(--c-line);
+}
+.add-in-group:active { opacity: .8; }
+
+.add-btn { margin-top: 24rpx; }
+
+/* ================= 表单 ================= */
+.sheet-title {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+  margin-bottom: 8rpx;
+}
+.form-sec {
+  margin: 28rpx 0 8rpx;
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-primary);
+  border-left: 8rpx solid var(--c-primary);
+  padding-left: 16rpx;
+}
+.label {
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+  margin: 20rpx 8rpx 10rpx;
+  font-weight: bold;
+}
+.req { color: var(--c-red); }
+.field {
+  background: var(--c-card);
+  border-radius: 12rpx;
+  padding: 22rpx 24rpx;
+  font-size: 32rpx;
+  color: var(--c-ink);
+  box-shadow: var(--shadow-card);
+}
+.field.picker { color: var(--c-primary); font-weight: bold; }
+.field.err { border: 2rpx solid var(--c-red); }
+.err-text {
+  margin: 8rpx 8rpx 0;
+  font-size: var(--fs-caption);
+  color: var(--c-red);
+}
+
+/* 隐私声明条 */
+.privacy {
+  margin: 28rpx 0;
+  padding: 20rpx 24rpx;
+  background: #EEF1F5;
+  border-radius: 12rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-2);
+  line-height: 1.6;
+}
+
+/* 绑定码占位卡 */
+.bind-card {
+  display: flex;
+  align-items: center;
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  padding: 24rpx;
+  margin: 10rpx 0 24rpx;
+  box-shadow: var(--shadow-card);
+}
+.qr-placeholder {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  background: repeating-linear-gradient(45deg, #1b4b8f 0, #1b4b8f 8rpx, #fff 8rpx, #fff 16rpx);
+  flex-shrink: 0;
+}
+.bind-text { margin-left: 24rpx; flex: 1; }
+.bind-title { font-size: var(--fs-sub); font-weight: bold; color: var(--c-green); }
+.bind-sub {
+  margin-top: 6rpx;
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  line-height: 1.5;
+}
+
+.sheet-btn { margin-top: 32rpx; }
+.sheet-cancel { margin-top: 20rpx; }
+
+/* ================= 绑定入口（页顶双按钮） ================= */
+.bind-entry { display: flex; gap: 16rpx; margin-bottom: 24rpx; }
+.be-btn {
+  flex: 1; text-align: center; padding: 26rpx 0;
+  border-radius: var(--r-btn); font-size: var(--fs-sub); font-weight: bold;
+  background: var(--c-card); color: var(--c-primary);
+  border: 2rpx solid var(--c-primary);
+}
+.be-btn.primary { background: var(--c-primary); color: #fff; }
+.be-btn:active { opacity: .82; }
+
+/* ================= 认领选人列表 ================= */
+.pick-list { max-height: 44vh; margin: 8rpx 0 16rpx; }
+.pick-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22rpx 24rpx; margin-bottom: 12rpx;
+  background: var(--c-card); border-radius: 12rpx;
+  border: 2rpx solid transparent;
+}
+.pick-row.on { border-color: var(--c-primary); background: #E8EFF8; }
+.pick-row.new { color: var(--c-primary); font-weight: bold; justify-content: center; }
+.pick-row.new.on { border-color: var(--c-primary); }
+
+/* 真二维码图片（由屏外画布转换而来；原生 canvas 不跟滚动，不用它直接显示） */
+.bind-qrc { width: 300rpx; height: 300rpx; flex-shrink: 0; }
+/* 屏外画布：只用于把文本码转成图片，永不显示 */
+.bind-qrc-off { position: fixed; left: -9999rpx; top: 0; width: 150px; height: 150px; }
+.label-sub { font-size: var(--fs-caption); color: var(--c-ink-3); margin: -8rpx 0 16rpx; }

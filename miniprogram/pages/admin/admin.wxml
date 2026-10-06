@@ -1,0 +1,163 @@
+<view class="page">
+  <!-- 顶部检索栏：搜名字直达工人 -->
+  <view class="searchbar">
+    <view class="search-icon"></view>
+    <input class="search-input" value="{{keyword}}" bindinput="onSearchInput"
+           placeholder="搜工人姓名，查看学习情况" confirm-type="search" />
+    <view wx:if="{{keyword}}" class="search-clear" bindtap="clearSearch">×</view>
+  </view>
+
+  <!-- 检索结果态 -->
+  <block wx:if="{{keyword}}">
+    <view class="result-tip" wx:if="{{searchResults.length}}">找到 {{searchResults.length}} 人，点卡片看详细学习情况：</view>
+    <view class="result-tip" wx:else>没找到叫「{{keyword}}」的工人</view>
+    <view class="wrow" wx:for="{{searchResults}}" wx:key="worker_id" bindtap="goDetail" data-id="{{item.worker_id}}">
+      <view class="wmain">
+        <view class="wname">{{item.name}}<text class="tag-job {{item._cls}}">{{item.job}}</text></view>
+        <view class="wsub-plain">{{item.group_name}} · {{item.age}} 岁</view>
+      </view>
+      <view wx:if="{{item.today && item.today.status === 'done'}}" class="badge badge-green">今日 {{item.today.score}} 分</view>
+      <view wx:else class="badge badge-orange">今日未学</view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <!-- 今天 / 往期 分段 -->
+    <view class="date-tab">
+      <view class="tab {{tab === 'today' ? 'on' : ''}}" data-tab="today" bindtap="switchTab">今天</view>
+      <view class="tab {{tab === 'history' ? 'on' : ''}}" data-tab="history" bindtap="switchTab">往期</view>
+    </view>
+
+    <!-- ======== 今天 ======== -->
+    <block wx:if="{{tab === 'today'}}">
+      <view wx:if="{{err}}" class="empty">
+        <view class="empty-icon"></view>
+        <view>{{err}}</view>
+        <view class="btn btn-primary empty-btn" bindtap="load">重新加载</view>
+      </view>
+
+      <block wx:elif="{{!overview}}">
+        <view class="skeleton sk-card"></view>
+        <view class="skeleton sk-row"></view>
+        <view class="skeleton sk-row"></view>
+      </block>
+
+      <block wx:else>
+        <view class="card" wx:if="{{overview.task}}">
+          <view class="card-tag">今日推送</view>
+          <view class="task-text">{{overview.task.task_text}}</view>
+          <view class="task-note" wx:if="{{overview.task.note}}">{{overview.task.note}}</view>
+          <view class="task-meta">{{overview.task.pushed_by}} · {{overview.task.pushed_at}} 推送</view>
+        </view>
+
+        <!-- 未学区 -->
+        <view class="sec">
+          <view class="sec-head">
+            <view class="sec-num orange">{{pendingList.length}}</view>
+            <view class="sec-title">
+              <view class="sec-name">未学</view>
+              <view class="sec-sub">点工人卡片看详细学习情况</view>
+            </view>
+            <view wx:if="{{pendingList.length}}" class="remind-btn" bindtap="openRemind">一键提醒</view>
+          </view>
+          <view class="empty-inline" wx:if="{{!pendingList.length}}">全部学完了，班组满分 ✓</view>
+          <view class="wrow" wx:for="{{pendingList}}" wx:key="worker_id" bindtap="goDetail" data-id="{{item.worker_id}}">
+            <view class="wmain">
+              <view class="wname">{{item.name}}<text class="tag-job {{item._cls}}">{{item.job}}</text></view>
+              <view class="wsub pending">今日还没学</view>
+            </view>
+            <view class="badge badge-orange">未学</view>
+          </view>
+        </view>
+
+        <!-- 已学区 -->
+        <view class="sec">
+          <view class="sec-head">
+            <view class="sec-num green">{{doneList.length}}</view>
+            <view class="sec-title">
+              <view class="sec-name">已学</view>
+              <view class="sec-sub" wx:if="{{doneList.length}}">平均 {{overview.stats.avg_score}} 分<block wx:if="{{overview.stats.done_diff !== 0}}"> · 较昨日 {{overview.stats.done_diff > 0 ? '+' : ''}}{{overview.stats.done_diff}} 人</block></view>
+            </view>
+          </view>
+          <view class="empty-inline" wx:if="{{!doneList.length}}">还没有人完成学习</view>
+          <view class="wrow" wx:for="{{doneList}}" wx:key="worker_id" bindtap="goDetail" data-id="{{item.worker_id}}">
+            <view class="wmain">
+              <view class="wname">{{item.name}}<text class="tag-job {{item._cls}}">{{item.job}}</text></view>
+              <view class="wsub">{{item.finished_at}} 完成 · {{item.score}} 分</view>
+            </view>
+            <view class="badge badge-green">已学</view>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <!-- ======== 往期 ======== -->
+    <block wx:if="{{tab === 'history'}}">
+      <!-- 日期列表（可检索） -->
+      <block wx:if="{{!historyDate}}">
+        <view class="searchbar slim">
+          <view class="search-icon"></view>
+          <input class="search-input" value="{{historyKeyword}}" bindinput="onHistoryInput"
+                 placeholder="检索日期，如 09-25" confirm-type="search" />
+        </view>
+        <view class="result-tip" wx:if="{{historyKeyword && filteredHistoryDays.length}}">匹配 {{filteredHistoryDays.length}} 天，点日期看当天明细：</view>
+        <view class="result-tip" wx:elif="{{historyKeyword && !filteredHistoryDays.length}}">没有「{{historyKeyword}}」的学习记录</view>
+        <view class="result-tip" wx:else>近 14 天学习情况，点日期看当天明细：</view>
+        <view class="skeleton sk-row" wx:if="{{!historyDays.length}}"></view>
+        <view class="day-row" wx:for="{{filteredHistoryDays}}" wx:key="date" bindtap="pickDay" data-date="{{item.date}}">
+          <view class="day-date">{{item.date.slice(5)}}</view>
+          <view class="day-info">已学 {{item.done}}/{{item.total}} · 平均 {{item.avg_score}} 分</view>
+          <view class="day-arrow">›</view>
+        </view>
+      </block>
+
+      <!-- 某天看板 -->
+      <block wx:else>
+        <view class="back-link" bindtap="backToDays">‹ 返回日期列表</view>
+        <view class="sec">
+          <view class="sec-head">
+            <view class="sec-num orange">{{hpList.length}}</view>
+            <view class="sec-title"><view class="sec-name">{{historyDate.slice(5)}} 未学</view></view>
+          </view>
+          <view class="empty-inline" wx:if="{{!hpList.length}}">当天全部完成 ✓</view>
+          <view class="wrow" wx:for="{{hpList}}" wx:key="worker_id" bindtap="goDetail" data-id="{{item.worker_id}}">
+            <view class="wmain">
+              <view class="wname">{{item.name}}<text class="tag-job {{item._cls}}">{{item.job}}</text></view>
+            </view>
+            <view class="badge badge-orange">未学</view>
+          </view>
+        </view>
+        <view class="sec">
+          <view class="sec-head">
+            <view class="sec-num green">{{hdList.length}}</view>
+            <view class="sec-title"><view class="sec-name">{{historyDate.slice(5)}} 已学</view></view>
+          </view>
+          <view class="empty-inline" wx:if="{{!hdList.length}}">当天没人完成</view>
+          <view class="wrow" wx:for="{{hdList}}" wx:key="worker_id" bindtap="goDetail" data-id="{{item.worker_id}}">
+            <view class="wmain">
+              <view class="wname">{{item.name}}<text class="tag-job {{item._cls}}">{{item.job}}</text></view>
+              <view class="wsub">{{item.finished_at}} 完成 · {{item.score}} 分</view>
+            </view>
+            <view class="badge badge-green">已学</view>
+          </view>
+        </view>
+      </block>
+    </block>
+  </block>
+
+  <!-- 一键提醒半屏弹窗 -->
+  <view wx:if="{{showRemind}}" class="half-mask" bindtap="closeRemind">
+    <view class="half-sheet" catchtap="">
+      <view class="sheet-title">提醒未学工人</view>
+      <view class="sheet-sub">以下 {{pendingList.length}} 人还没完成今日学习：</view>
+      <view class="remind-names">
+        <text class="remind-name" wx:for="{{pendingList}}" wx:key="worker_id">{{item.name}}</text>
+      </view>
+      <view class="remind-tip">正式环境将通过订阅消息/语音外呼自动提醒；演示期建议班前会口头提醒。</view>
+      <view class="btn btn-primary {{reminding ? 'disabled' : ''}}" bindtap="sendRemind">
+        {{reminding ? '提醒中…' : '一键提醒'}}
+      </view>
+      <view class="btn btn-ghost sheet-cancel" bindtap="closeRemind">取消</view>
+    </view>
+  </view>
+</view>

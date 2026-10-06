@@ -1,0 +1,121 @@
+<view class="page">
+  <!-- 〇、工作环境天气：自动定位获取当地天气（温度/风级/风向…），随推送上送给智能体做工序分析 -->
+  <view class="wx-card {{weather.risk_level}}" wx:if="{{weather}}" bindtap="loadWeather" data-tap="1">
+    <view class="wx-main">
+      <view class="wx-temp">{{weather.temp}}°</view>
+      <view class="wx-info">
+        <view class="wx-line1">{{weather.text}} · {{weather.wind_dir}} {{weather.wind_scale}}级</view>
+        <view class="wx-line2">体感 {{weather.feels_like}}° · 湿度 {{weather.humidity}}% · 风速 {{weather.wind_speed}}km/h · 能见度 {{weather.vis}}km</view>
+      </view>
+      <view class="wx-refresh">{{weatherLoading ? '…' : '⟳'}}</view>
+    </view>
+    <view class="wx-hint" wx:for="{{weather.risk_hints}}" wx:for-item="h" wx:key="text">⚠ {{h.text}}</view>
+    <view class="wx-src">工作环境将随推送带给智能体分析{{weather.source === 'stub' ? ' · 演示数据' : ''}} · 点卡片刷新</view>
+  </view>
+  <view class="wx-card wx-none" wx:else bindtap="loadWeather" data-tap="1">
+    <view class="wx-none-text">{{weatherLoading ? '正在获取工地天气…' : (weatherErr || '点我获取当地天气（温度 / 风级 / 风向）')}}</view>
+  </view>
+
+  <!-- 一、推送给谁（先选） -->
+  <view class="sec-title">一、推送给谁</view>
+  <view class="chips">
+    <view class="chip {{targetType === 'all' ? 'on' : ''}}" bindtap="pickAll">全部工人</view>
+    <view wx:for="{{groups}}" wx:key="group_id"
+          class="chip {{targetType === 'group' && targetGroup.group_id === item.group_id ? 'on' : ''}}"
+          data-g="{{item}}" bindtap="pickGroup">{{item.name}}（{{item.count}}人）</view>
+    <view class="chip {{targetType === 'worker' ? 'on' : ''}}" bindtap="openWorkerPick">指定个人</view>
+  </view>
+  <view class="target-worker" wx:if="{{targetType === 'worker' && targetWorker}}" bindtap="openWorkerPick">
+    已选：<text class="tw-name">{{targetWorker.name}}</text>（{{targetWorker.group_name}} · {{targetWorker.job}}）· 点我重选
+  </view>
+
+  <!-- 二、今日工作：管理员自己说/填，不选预制内容；规范由系统按工序自动匹配 -->
+  <view class="sec-title">二、今日干什么活</view>
+
+  <view class="task-row">
+    <input class="field task-field" value="{{taskText}}" bindinput="onTaskInput"
+           placeholder="说/填今天干什么活，比如：三层外墙脚手架搭设" maxlength="50" confirm-type="done" />
+    <view class="mic-btn {{voiceState}}" bindtouchstart="voiceStart" bindtouchend="voiceStop" bindtouchcancel="voiceStop">
+      {{voiceState === 'recording' ? '松开出字' : (voiceState === 'recognizing' ? '识别中…' : '按住说话')}}
+    </view>
+  </view>
+
+  <!-- 历史工作联想：输到一半，差不多的点一下就填入（规范沿用那次） -->
+  <view class="his-row" wx:for="{{historyMatch}}" wx:key="task_text" data-h="{{item}}" bindtap="pickHistory">
+    <view class="his-main">
+      <view class="his-title">{{item.task_text}}</view>
+      <view class="his-sub">{{item.date}} 推过{{item.times > 1 ? ' · 共 ' + item.times + ' 次' : ''}}{{item.kb_ids.length ? ' · 沿用 ' + item.kb_ids.length + ' 条规范' : ''}}</view>
+    </view>
+    <view class="his-fill">填入</view>
+  </view>
+
+  <!-- 近两天推送：工序常常连着干，点一下沿用（工作内容+规范） -->
+  <block wx:if="{{recentItems.length}}">
+    <view class="rc-cap">近两天推送 · 点一下沿用</view>
+    <view class="his-row" wx:for="{{recentItems}}" wx:key="task_text" data-h="{{item}}" bindtap="pickHistory">
+      <view class="rc-date {{item.dateLabel === '今天' ? 'today' : ''}}">{{item.dateLabel}}</view>
+      <view class="his-main">
+        <view class="his-title">{{item.task_text}}</view>
+        <view class="his-sub">{{item.kb_ids.length}} 条规范沿用{{item.times > 1 ? ' · 两天内推了 ' + item.times + ' 次' : ''}}</view>
+      </view>
+      <view class="his-fill">再推</view>
+    </view>
+  </block>
+
+  <!-- 规范预览（可选）：系统按工序自动匹配，管理员不选条文 -->
+  <view class="pv-link" wx:if="{{taskText}}" bindtap="openPreview">看看会匹配到哪些规范 ›</view>
+
+  <!-- 三、备注与推送 -->
+  <view class="sec-title">三、备注与推送</view>
+  <input class="field" data-k="note" value="{{note}}" bindinput="onInput"
+         placeholder="备注（可选，给工人看的提醒）" maxlength="100" />
+  <view class="btn btn-primary {{pushing ? 'disabled' : ''}}" bindtap="submit">
+    {{pushing ? '推送中…' : '推送'}}
+  </view>
+
+  <!-- 推送成功覆盖层 -->
+  <view wx:if="{{pushedCount}}" class="pop-mask">
+    <view class="pop-card green">
+      <view class="pop-icon">✓</view>
+      <view class="pop-text">已推送给 {{pushedCount}} 名工人</view>
+    </view>
+  </view>
+
+  <!-- 规范预览半屏（按今日工作自动匹配，只读预览） -->
+  <view wx:if="{{customDetail}}" class="half-mask" bindtap="closeDetail">
+    <view class="half-sheet" catchtap="">
+      <view class="sheet-title">{{customDetail.title}}<text class="custom-tag">自动匹配</text></view>
+      <view class="d-sec">按这道工序匹配到的规范</view>
+      <view wx:if="{{customDetail.loading}}" class="d-loading">检索中…</view>
+      <block wx:else>
+        <view class="d-kb" wx:for="{{customDetail.kb}}" wx:key="kb_id">
+          <view class="d-kb-head">{{item.title}}<text class="d-kb-doc">{{item.doc_no}} · {{item.clause}}</text></view>
+          <view class="d-kb-sum">{{item.summary}}</view>
+        </view>
+        <view wx:if="{{!customDetail.kb.length}}" class="d-loading">没检索到规范条目，也可直接推送（后端按工序生成内容）。</view>
+      </block>
+      <view class="d-sec">培训要点与考题将由后端智能体按上述内容生成</view>
+      <view class="btn btn-ghost sheet-cancel" bindtap="closeDetail">知道了</view>
+    </view>
+  </view>
+
+  <!-- 选人半屏 -->
+  <view wx:if="{{showWorkerPick}}" class="half-mask" bindtap="closeWorkerPick">
+    <view class="half-sheet" catchtap="">
+      <view class="sheet-title">选择工人</view>
+      <view class="searchbar slim">
+        <view class="search-icon"></view>
+        <input class="search-input" value="{{workerKeyword}}" bindinput="onWorkerKeyword" placeholder="搜姓名" confirm-type="search" />
+      </view>
+      <view class="wrow" wx:for="{{filteredWorkers}}" wx:key="worker_id" bindtap="pickWorker" data-w="{{item}}">
+        <view class="wmain">
+          <view class="wname">{{item.name}}</view>
+          <view class="wsub-plain">{{item.group_name}} · {{item.job}}</view>
+        </view>
+        <view class="c-arrow">›</view>
+      </view>
+      <view wx:if="{{!filteredWorkers.length}}" class="d-loading">没找到这个人</view>
+      <view class="btn btn-ghost sheet-cancel" bindtap="closeWorkerPick">取消</view>
+    </view>
+  </view>
+</view>

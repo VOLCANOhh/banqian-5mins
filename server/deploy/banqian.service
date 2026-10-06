@@ -1,0 +1,24 @@
+[Unit]
+Description=banqian-5min backend (orchestrator stub)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/YOUR_USER/banqian-server/index.js
+WorkingDirectory=/home/YOUR_USER/banqian-server
+Restart=always
+RestartSec=3
+User=YOUR_USER
+Environment=PORT=3000
+# 和风天气（/api/weather 真源；不配则桩兜底演示数据，服务照常可用）
+# 凭据找袁博伦单独拿，不进仓库：注册 dev.qweather.com → 创建项目 → 拿 KEY
+# Environment=QWEATHER_KEY=你的KEY
+# 新版控制台分配专属 API Host 时必须一起配（如 xxxx.re.qweatherapi.com）；经典老 key 用默认 devapi.qweather.com 不用配
+# Environment=QWEATHER_HOST=你的专属host
+# LLM 三通道（判分/答疑/剧本生成真身；不配则回落工程占位实现，不断链）
+# 实际配置在 banqian.service.d/llm.conf（权限 600）：Environment=LLM_KEY=...
+# Environment=LLM_BASE_URL=https://api.deepseek.com   （缺省即此，可换任意 OpenAI 兼容端点）
+# Environment=LLM_MODEL=deepseek-chat                 （缺省即此）
+# Environment=LLM_KEY_2=... / LLM_BASE_URL_2=... / LLM_MODEL_2=...   （二/三通道降级预留）
+
+[Install]
+WantedBy=multi-user.target

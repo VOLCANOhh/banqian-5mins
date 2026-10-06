@@ -1,0 +1,53 @@
+<view class="page">
+  <!-- 品牌头 -->
+  <view class="logo-card">
+    <view class="logo-name">班前五分钟</view>
+    <view class="logo-slogan">每个工人都听得懂的班前安全课</view>
+  </view>
+
+  <!-- 应用信息 -->
+  <view class="sec-title">应用信息</view>
+  <view class="card">
+    <view class="row">
+      <text class="k">版本号</text>
+      <text class="v">v{{info.version}}（{{info.build}}）</text>
+    </view>
+    <view class="row">
+      <text class="k">运行环境</text>
+      <text class="v">{{env.ver}}{{env.mpVer !== '—' ? ' · ' + env.mpVer : ''}}</text>
+    </view>
+    <view class="row">
+      <text class="k">基础库</text>
+      <text class="v">{{env.sdk}}</text>
+    </view>
+    <view class="row">
+      <text class="k">数据模式</text>
+      <text class="v">{{mock ? '演示数据（mock）' : '联调真链路'}}</text>
+    </view>
+    <view class="row">
+      <text class="k">后端服务</text>
+      <text class="v small">{{apiBase}}</text>
+    </view>
+  </view>
+
+  <!-- 客服与反馈 -->
+  <view class="sec-title">客服与反馈</view>
+  <view class="card">
+    <view class="row tap" bindtap="call">
+      <text class="k">客服电话</text>
+      <text class="v link">{{info.phone}} · 点我拨打</text>
+    </view>
+    <view class="row tap" data-v="{{info.wechat}}" bindtap="copy">
+      <text class="k">客服微信</text>
+      <text class="v link">{{info.wechat}} · 点我复制</text>
+    </view>
+    <view class="row tap" data-v="{{info.email}}" bindtap="copy">
+      <text class="k">反馈邮箱</text>
+      <text class="v link">{{info.email}} · 点我复制</text>
+    </view>
+  </view>
+
+  <!-- 隐私声明 -->
+  <view class="sec-title">隐私声明</view>
+  <view class="card privacy">工人信息仅用于安全培训与学习档案，不作为绩效考核或处罚依据；手机号等敏感信息在列表中脱敏显示。</view>
+</view>

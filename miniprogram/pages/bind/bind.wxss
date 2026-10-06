@@ -1,0 +1,22 @@
+page { overflow: auto; }
+.bind-page { padding: 32rpx 28rpx 60rpx; }
+.bind-title {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  text-align: center;
+  margin: 24rpx 0;
+}
+.qr-card { text-align: center; padding: 32rpx; }
+.qrc { width: 560rpx; height: 560rpx; margin: 0 auto; }
+.bind-tip {
+  margin: 20rpx 0 32rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+  text-align: center;
+}
+.scan-btn { margin: 0 8rpx; }
+.admin-entry {
+  margin-top: 48rpx; text-align: center;
+  font-size: var(--fs-caption); color: var(--c-ink-3);
+}
+.admin-entry:active { color: var(--c-primary); }

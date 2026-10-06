@@ -1,0 +1,88 @@
+<view class="page">
+  <!-- 品牌启动页：1.1s 后渐隐 -->
+  <view wx:if="{{splash}}" class="splash {{splashOut ? 'out' : ''}}">
+    <view class="logo-badge">班前</view>
+    <view class="app-name">班前五分钟</view>
+    <view class="slogan">安全记心中</view>
+    <view class="splash-tip">正在准备今日学习…</view>
+  </view>
+
+  <!-- 顶部进度区：阶段文案 + 进度条 -->
+  <view class="topbar" wx:if="{{ready}}">
+    <view class="stage">{{stageText}}</view>
+    <view class="progress-track">
+      <view class="progress-fill" style="width:{{progress}}%"></view>
+    </view>
+  </view>
+
+  <!-- 歌词式字幕：当前行居中，三级灰度过渡（对标网易云歌词） -->
+  <scroll-view class="lyric" scroll-y scroll-top="{{scrollTop}}"
+               scroll-with-animation enhanced show-scrollbar="{{false}}">
+    <view class="pad" style="height:{{padH}}px"></view>
+    <view wx:for="{{lines}}" wx:key="index"
+          class="line fs-{{fontSize}} {{index === idx ? 'on' : (index === idx - 1 || index === idx + 1 ? 'near' : 'far')}}">
+      {{item}}
+    </view>
+    <view class="pad" style="height:{{padH}}px"></view>
+  </scroll-view>
+
+  <!-- 加载遮罩：字幕区始终渲染，尺寸一开始就可量 -->
+  <view wx:if="{{!ready}}" class="loading">正在准备今日学习内容…</view>
+
+  <!-- 暂停遮罩：字幕压暗 + 中央大图标，点按继续 -->
+  <view wx:if="{{ready && phase === 'read' && !playing}}" class="pause-mask" bindtap="toggle">
+    <view class="pause-triangle"></view>
+    <view class="pause-tip">已暂停 · 点按继续</view>
+  </view>
+
+  <!-- 指令监听指示点（右上角红脉冲） -->
+  <view wx:if="{{cmdOn}}" class="cmd-dot"></view>
+
+  <!-- 底部操作区：读正文=大圆钮+问按钮 / 读题中=提示 / 提问=录音 / 等你答=录音面板 -->
+  <view class="dock">
+    <block wx:if="{{phase === 'read'}}">
+      <view class="askq" bindtap="tapAsk">
+        <view class="askq-icon">?</view>
+        <view class="askq-text">没听懂</view>
+      </view>
+      <view class="btn-round {{playing ? 'on' : 'off'}}" bindtap="toggle">
+        {{playing ? '暂停' : '继续'}}
+      </view>
+    </block>
+
+    <view wx:elif="{{phase === 'ask'}}" class="ask-panel">
+      <view class="ask-dot"></view>
+      <view class="ask-text">请听题，想一想再回答</view>
+    </view>
+
+    <view wx:elif="{{phase === 'qa'}}" class="rec-panel {{recording ? '' : 'idle'}}">
+      <block wx:if="{{recording}}">
+        <view class="sound-bars">
+          <view class="bar"></view><view class="bar"></view><view class="bar"></view><view class="bar"></view><view class="bar"></view>
+        </view>
+        <view class="rec-text">正在听你的问题… {{listenSec}}″</view>
+        <view class="rec-done" bindtap="finishSpeak">说完了</view>
+      </block>
+      <view wx:else class="rec-text">老师傅在想…</view>
+    </view>
+
+    <view wx:elif="{{phase === 'listen'}}" class="rec-panel {{recording ? '' : 'idle'}}">
+      <block wx:if="{{recording}}">
+        <view class="sound-bars">
+          <view class="bar"></view><view class="bar"></view><view class="bar"></view><view class="bar"></view><view class="bar"></view>
+        </view>
+        <view class="rec-text">正在听您说… {{listenSec}}″</view>
+        <view class="rec-done" bindtap="finishSpeak">说完了</view>
+      </block>
+      <view wx:else class="rec-text">识别中…</view>
+    </view>
+  </view>
+
+  <!-- 答题反馈弹卡：✓绿 / ⚠橙 -->
+  <view wx:if="{{verdictPop}}" class="pop-mask">
+    <view class="pop-card {{verdictPop.kind}}">
+      <view class="pop-icon">{{verdictPop.kind === 'green' ? '✓' : '⚠'}}</view>
+      <view class="pop-text">{{verdictPop.text}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,4 @@
+{
+  "desc": "班前五分钟",
+  "rules": [{ "action": "allow", "page": "*" }]
+}

@@ -1,0 +1,66 @@
+page {
+  background: var(--c-bg);
+}
+
+.page {
+  padding: 24rpx 24rpx 80rpx;
+}
+
+/* 品牌头 */
+.logo-card {
+  background: linear-gradient(135deg, #1B4B8F 0%, #2E63B0 100%);
+  border-radius: var(--r-card);
+  padding: 48rpx 32rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(27,75,143,.22);
+}
+.logo-name {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 4rpx;
+}
+.logo-slogan {
+  margin-top: 12rpx;
+  font-size: var(--fs-caption);
+  color: rgba(255,255,255,.85);
+}
+
+/* 分节标题 */
+.sec-title {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-ink);
+  margin: 32rpx 8rpx 16rpx;
+}
+
+/* 信息卡（.card 用全局样式，这里只排内部行） */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid var(--c-line);
+}
+.row:last-child { border-bottom: none; }
+.row.tap:active { opacity: .7; }
+.k {
+  font-size: var(--fs-sub);
+  color: var(--c-ink-2);
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+.v {
+  font-size: var(--fs-sub);
+  color: var(--c-ink);
+  font-weight: bold;
+  text-align: right;
+}
+.v.small { font-size: var(--fs-caption); font-weight: normal; }
+.v.link { color: var(--c-primary); }
+
+.privacy {
+  font-size: var(--fs-caption);
+  color: var(--c-ink-3);
+  line-height: 1.7;
+}

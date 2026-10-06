@@ -1,0 +1,140 @@
+page {
+  background: var(--c-bg);
+}
+
+.page {
+  padding: 32rpx 24rpx 60rpx;
+}
+
+/* ================= 得分主卡 ================= */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 72rpx 32rpx 64rpx;
+  overflow: hidden;
+}
+.score {
+  font-size: 128rpx;
+  font-weight: bold;
+  color: var(--c-primary);
+  line-height: 1.1;
+}
+.score .unit {
+  font-size: 40rpx;
+  margin-left: 8rpx;
+  color: var(--c-ink-2);
+}
+.praise {
+  margin-top: 16rpx;
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+
+/* 印章：班前会"签字归档"的数字化隐喻 */
+.stamp {
+  position: absolute;
+  right: 40rpx;
+  bottom: 40rpx;
+  width: 176rpx;
+  height: 176rpx;
+  border: 6rpx solid rgba(192, 57, 43, .75);
+  border-radius: 50%;
+  transform: rotate(-14deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stamp-inner {
+  width: 144rpx;
+  height: 144rpx;
+  border: 2rpx solid rgba(192, 57, 43, .55);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.stamp-text {
+  color: rgba(192, 57, 43, .85);
+  font-size: 30rpx;
+  font-weight: bold;
+  letter-spacing: 2rpx;
+}
+.stamp-date {
+  margin-top: 6rpx;
+  color: rgba(192, 57, 43, .7);
+  font-size: 24rpx;
+}
+
+/* ================= 复训日历卡 ================= */
+.review-card {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+}
+.cal {
+  width: 120rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  border: 2rpx solid var(--c-line);
+  text-align: center;
+  flex-shrink: 0;
+}
+.cal-month {
+  background: var(--c-primary);
+  color: #fff;
+  font-size: var(--fs-caption);
+  padding: 6rpx 0;
+}
+.cal-day {
+  background: #fff;
+  color: var(--c-ink);
+  font-size: 56rpx;
+  font-weight: bold;
+  padding: 10rpx 0;
+}
+.cal-text { margin-left: 28rpx; }
+.cal-title {
+  font-size: var(--fs-title);
+  font-weight: bold;
+  color: var(--c-ink);
+}
+.cal-sub {
+  margin-top: 8rpx;
+  font-size: var(--fs-sub);
+  color: var(--c-ink-3);
+}
+
+/* ================= 需要巩固 ================= */
+.sec-title {
+  font-size: var(--fs-sub);
+  font-weight: bold;
+  color: var(--c-orange);
+  margin-bottom: 12rpx;
+}
+.card + .card { margin-top: 24rpx; }
+.wrong {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--c-line);
+}
+.wrong:last-child { border-bottom: none; }
+.wrong-q {
+  font-size: var(--fs-sub);
+  color: var(--c-ink-3);
+}
+.wrong-a {
+  margin-top: 6rpx;
+  font-size: var(--fs-body);
+  color: var(--c-orange);
+  font-weight: bold;
+}
+
+/* ================= 底部 ================= */
+.replay { margin-top: 40rpx; }
+.exit-tip {
+  margin-top: 24rpx;
+  text-align: center;
+  color: var(--c-ink-3);
+  font-size: var(--fs-sub);
+}

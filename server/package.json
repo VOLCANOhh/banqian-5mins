@@ -1,0 +1,9 @@
+{
+  "name": "banqian-5min-server",
+  "version": "0.1.0",
+  "description": "班前五分钟 后端骨架：实现 PROTOCOL.md 端点契约，编排器在此壳上生长",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}

@@ -1,0 +1,37 @@
+<view class="page">
+  <!-- 得分主卡 + 完成印章 -->
+  <view class="hero card">
+    <view class="score">{{r.score}}<text class="unit">分</text></view>
+    <view class="praise">{{praise}}</view>
+    <view class="stamp">
+      <view class="stamp-inner">
+        <view class="stamp-text">今日已完成</view>
+        <view class="stamp-date">{{stampDate}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 下次复训日历卡 -->
+  <view class="card review-card" wx:if="{{review}}">
+    <view class="cal">
+      <view class="cal-month">{{review.month}}月</view>
+      <view class="cal-day">{{review.day}}</view>
+    </view>
+    <view class="cal-text">
+      <view class="cal-title">下次复训</view>
+      <view class="cal-sub">到那天再听一遍，就忘不掉了</view>
+    </view>
+  </view>
+
+  <!-- 需要巩固 -->
+  <view class="card" wx:if="{{r.wrong_items.length}}">
+    <view class="sec-title">需要巩固</view>
+    <view class="wrong" wx:for="{{r.wrong_items}}" wx:key="q_id">
+      <view class="wrong-q">你的回答：{{item.your}}</view>
+      <view class="wrong-a">正确答案：{{item.correct}}</view>
+    </view>
+  </view>
+
+  <view class="btn btn-primary replay" bindtap="replay">再看一遍</view>
+  <view class="exit-tip">学完可以直接退出，明天班前见</view>
+</view>
